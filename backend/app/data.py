@@ -97,6 +97,37 @@ FORNECEDORES: List[Fornecedor] = [
         total_clientes=934,
         avaliacao_media=4.5
     ),
+    Fornecedor(
+        id="f9",
+        nome="Santa Catarina Solar",
+        logo="https://api.dicebear.com/7.x/shapes/svg?seed=sc",
+        estado="SC",
+        solucoes=[SolucaoTipo.GD],
+        custo_kwh_gd=0.58,
+        total_clientes=987,
+        avaliacao_media=4.6
+    ),
+    Fornecedor(
+        id="f10",
+        nome="Bahia Energia Limpa",
+        logo="https://api.dicebear.com/7.x/shapes/svg?seed=bahia",
+        estado="BA",
+        solucoes=[SolucaoTipo.GD, SolucaoTipo.MERCADO_LIVRE],
+        custo_kwh_gd=0.56,
+        custo_kwh_ml=0.52,
+        total_clientes=1456,
+        avaliacao_media=4.8
+    ),
+    Fornecedor(
+        id="f11",
+        nome="Ceará Renovável",
+        logo="https://api.dicebear.com/7.x/shapes/svg?seed=ceara",
+        estado="CE",
+        solucoes=[SolucaoTipo.MERCADO_LIVRE],
+        custo_kwh_ml=0.50,
+        total_clientes=823,
+        avaliacao_media=4.5
+    ),
 ]
 
 
