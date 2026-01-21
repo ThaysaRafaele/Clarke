@@ -365,3 +365,25 @@ body {
   height: auto;
   filter: drop-shadow(0 4px 10px rgba(0, 89, 49, 0.1));
 }
+.sem-resultados {
+  text-align: center;
+  padding: 60px 40px;
+}
+
+.sem-resultados h2 {
+  color: #1D4432;
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.sem-resultados p {
+  color: #005931;
+  font-size: 1.1rem;
+  margin-bottom: 15px;
+  line-height: 1.6;
+}
+
+.sem-resultados strong {
+  color: #00BF6A;
+  font-weight: 600;
+}

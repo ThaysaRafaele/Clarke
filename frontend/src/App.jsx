@@ -21,7 +21,7 @@ function App() {
   });
 
   const handleSimular = () => {
-    if (!selectedUf || !consumo || consumo <= 0) {
+    if (!selectedUf || !consumo || parseFloat(consumo) <= 0) {
       alert('Por favor, preencha todos os campos corretamente.');
       return;
     }
@@ -74,7 +74,7 @@ function App() {
               type="number"
               value={consumo}
               onChange={(e) => setConsumo(e.target.value)}
-              placeholder="Ex: 30000"
+              placeholder="Digite um valor > 0 (ex: 30000)"
               className="input"
               min="1"
             />
@@ -83,7 +83,7 @@ function App() {
           <button 
             className="btn-simular"
             onClick={handleSimular}
-            disabled={!selectedUf || !consumo || loadingSimulacao}
+            disabled={!selectedUf || !consumo || parseFloat(consumo) <= 0 || loadingSimulacao}
           >
             {loadingSimulacao ? 'Simulando...' : 'Simular Economia'}
           </button>
@@ -91,89 +91,104 @@ function App() {
 
         {resultado && (
           <div className="resultados">
-            <div className="resultado-header">
-              <h2>Resultado da Simulação</h2>
-              <p className="estado-info">
-                {resultado.estado.nome} - Tarifa base: R$ {resultado.estado.tarifaBaseKwh.toFixed(2)}/kWh
-              </p>
-            </div>
-
-            <div className="custos-atuais">
-              <div className="custo-card">
-                <span className="label">Custo Atual Mensal</span>
-                <span className="valor">R$ {resultado.custoAtualMensal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span>
+            {resultado.totalFornecedores === 0 ? (
+              <div className="sem-resultados">
+                <h2>😕 Nenhum fornecedor encontrado</h2>
+                <p>
+                  Ainda não temos fornecedores disponíveis para <strong>{resultado.estado.nome}</strong> com este consumo.
+                </p>
+                <p>
+                  Tente outro estado ou entre em contato para mais informações.
+                </p>
               </div>
-              <div className="custo-card">
-                <span className="label">Custo Atual Anual</span>
-                <span className="valor">R$ {resultado.custoAtualAnual.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span>
-              </div>
-            </div>
+            ) : (
+              <>
+                <div className="resultado-header">
+                  <h2>Resultado da Simulação</h2>
+                  <p className="estado-info">
+                    {resultado.estado.nome} - Tarifa base: R$ {resultado.estado.tarifaBaseKwh.toFixed(2)}/kWh
+                  </p>
+                </div>
 
-            {resultado.solucoesDisponiveis.map((solucao) => (
-              <div key={solucao.tipo} className="solucao-section">
-                <h3 className="solucao-titulo">{solucao.tipo}</h3>
-                
-                {solucao.melhorEconomia && (
-                  <div className="melhor-economia">
-                    <div className="economia-destaque">
-                      <h4>Melhor Economia</h4>
-                      <p className="fornecedor-nome">{solucao.melhorEconomia.fornecedor.nome}</p>
-                      <div className="economia-valores">
-                        <div className="economia-item">
-                          <span className="economia-label">Economia Mensal</span>
-                          <span className="economia-valor positivo">
-                            R$ {solucao.melhorEconomia.economiaMensal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
-                          </span>
+                <div className="custos-atuais">
+                  <div className="custo-card">
+                    <span className="label">Custo Atual Mensal</span>
+                    <span className="valor">R$ {resultado.custoAtualMensal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span>
+                  </div>
+                  <div className="custo-card">
+                    <span className="label">Custo Atual Anual</span>
+                    <span className="valor">R$ {resultado.custoAtualAnual.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span>
+                  </div>
+                </div>
+
+                {resultado.solucoesDisponiveis.map((solucao) => (
+                  <div key={solucao.tipo} className="solucao-section">
+                    <h3 className="solucao-titulo">{solucao.tipo}</h3>
+                    
+                    {solucao.melhorEconomia && (
+                      <div className="melhor-economia">
+                        <div className="economia-destaque">
+                          <h4>Melhor Economia</h4>
+                          <p className="fornecedor-nome">{solucao.melhorEconomia.fornecedor.nome}</p>
+                          <div className="economia-valores">
+                            <div className="economia-item">
+                              <span className="economia-label">Economia Mensal</span>
+                              <span className="economia-valor positivo">
+                                R$ {solucao.melhorEconomia.economiaMensal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                              </span>
+                            </div>
+                            <div className="economia-item">
+                              <span className="economia-label">Economia Anual</span>
+                              <span className="economia-valor positivo">
+                                R$ {solucao.melhorEconomia.economiaAnual.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                              </span>
+                            </div>
+                            <div className="economia-item">
+                              <span className="economia-label">Economia %</span>
+                              <span className="economia-percentual">
+                                {solucao.melhorEconomia.economiaPercentual.toFixed(2)}%
+                              </span>
+                            </div>
+                          </div>
                         </div>
-                        <div className="economia-item">
-                          <span className="economia-label">Economia Anual</span>
-                          <span className="economia-valor positivo">
-                            R$ {solucao.melhorEconomia.economiaAnual.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
-                          </span>
-                        </div>
-                        <div className="economia-item">
-                          <span className="economia-label">Economia %</span>
-                          <span className="economia-percentual">
-                            {solucao.melhorEconomia.economiaPercentual.toFixed(2)}%
-                          </span>
-                        </div>
+                      </div>
+                    )}
+
+                    <div className="fornecedores-list">
+                      <h4>Fornecedores Disponíveis ({solucao.fornecedores.length})</h4>
+                      <div className="fornecedores-grid">
+                        {solucao.fornecedores.map((fornecedor) => (
+                          <div key={fornecedor.id} className="fornecedor-card">
+                            <img src={fornecedor.logo} alt={fornecedor.nome} className="fornecedor-logo" />
+                            <h5>{fornecedor.nome}</h5>
+                            <div className="fornecedor-info">
+                              <span>⭐ {fornecedor.avaliacaoMedia.toFixed(1)}</span>
+                              <span>👥 {fornecedor.totalClientes.toLocaleString('pt-BR')} clientes</span>
+                            </div>
+                            <div className="fornecedor-custos">
+                              {fornecedor.custoKwhGd && (
+                                <span>GD: R$ {fornecedor.custoKwhGd.toFixed(2)}/kWh</span>
+                              )}
+                              {fornecedor.custoKwhMl && (
+                                <span>ML: R$ {fornecedor.custoKwhMl.toFixed(2)}/kWh</span>
+                              )}
+                            </div>
+                          </div>
+                        ))}
                       </div>
                     </div>
                   </div>
-                )}
+                ))}
 
-                <div className="fornecedores-list">
-                  <h4>Fornecedores Disponíveis ({solucao.fornecedores.length})</h4>
-                  <div className="fornecedores-grid">
-                    {solucao.fornecedores.map((fornecedor) => (
-                      <div key={fornecedor.id} className="fornecedor-card">
-                        <img src={fornecedor.logo} alt={fornecedor.nome} className="fornecedor-logo" />
-                        <h5>{fornecedor.nome}</h5>
-                        <div className="fornecedor-info">
-                          <span>⭐ {fornecedor.avaliacaoMedia.toFixed(1)}</span>
-                          <span>👥 {fornecedor.totalClientes.toLocaleString('pt-BR')} clientes</span>
-                        </div>
-                        <div className="fornecedor-custos">
-                          {fornecedor.custoKwhGd && (
-                            <span>GD: R$ {fornecedor.custoKwhGd.toFixed(2)}/kWh</span>
-                          )}
-                          {fornecedor.custoKwhMl && (
-                            <span>ML: R$ {fornecedor.custoKwhMl.toFixed(2)}/kWh</span>
-                          )}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+                <div className="selo-energia">
+                  <img 
+                    src="/src/assets/3.png" 
+                    alt="Energia do Futuro - Empresa comprometida com sustentabilidade" 
+                    className="selo-img"
+                  />
                 </div>
-              </div>
-            ))}
-            <div className="selo-energia">
-              <img 
-                src="/src/assets/3.png" 
-                alt="Energia do Futuro - Empresa comprometida com sustentabilidade" 
-                className="selo-img"
-              />
-            </div>
+              </>
+            )}
           </div>
         )}
       </main>
