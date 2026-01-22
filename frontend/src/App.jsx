@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useQuery, useLazyQuery } from '@apollo/client';
 import { GET_ESTADOS, SIMULAR_ECONOMIA } from './graphql/queries';
+import Button from './components/Button';
 import './App.css';
 
 function App() {
@@ -80,13 +81,12 @@ function App() {
             />
           </div>
 
-          <button 
-            className="btn-simular"
+          <Button 
             onClick={handleSimular}
             disabled={!selectedUf || !consumo || parseFloat(consumo) <= 0 || loadingSimulacao}
           >
             {loadingSimulacao ? 'Simulando...' : 'Simular Economia'}
-          </button>
+          </Button>
         </div>
 
         {resultado && (
