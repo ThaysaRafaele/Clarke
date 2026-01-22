@@ -18,7 +18,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-graphql_app = GraphQLRouter(schema, graphiql=True)
+graphql_app = GraphQLRouter(schema, graphql_ide="graphiql")
 app.include_router(graphql_app, prefix="/graphql")
 
 
