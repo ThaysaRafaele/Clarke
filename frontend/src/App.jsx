@@ -42,7 +42,7 @@ function App() {
     <div className="app">
       <header className="header">
         <img 
-          src="/src/assets/logo2.png" 
+          src="/logo2.png" 
           alt="Clarke Energia" 
           className="logo"
         />
@@ -182,7 +182,7 @@ function App() {
 
                 <div className="selo-energia">
                   <img 
-                    src="/src/assets/3.png" 
+                    src="/3.png" 
                     alt="Energia do Futuro - Empresa comprometida com sustentabilidade" 
                     className="selo-img"
                   />
