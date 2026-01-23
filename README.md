@@ -87,6 +87,14 @@ Clarke/
 - ✅ **GraphQL** (Apollo Client + Strawberry)
 - ✅ **Docker** (Dockerfiles + Docker Compose)
 
+## 📺 Preview
+
+<img width="1889" height="974" alt="image" src="https://github.com/user-attachments/assets/f9b10497-966f-4411-a6eb-e2496c52535f" />
+
+<img width="1187" height="905" alt="image" src="https://github.com/user-attachments/assets/9f693f1f-4de4-4b56-aaef-5b9cd9e15519" />
+
+
+
 ## 👥 Autora
 
 Thaysa Rafaele - Desafio Técnico Clarke Energia 2026
